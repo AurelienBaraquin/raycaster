@@ -4,7 +4,9 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-glam = "0.33.7"
+glam = { version = "0.33.7", features = ["serde"] }
+ron = "0.12.2"
+serde = { version = "1.0.229", features = ["derive"] }
 
 [dev-dependencies]
 approx = "0.5.1"

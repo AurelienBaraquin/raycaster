@@ -1,0 +1,78 @@
+// Niveau de demo : une grande salle (secteur 0) reliee par une VRAIE PORTE
+// animee (secteur 2, fin, plafond qui monte/descend selon la proximite du
+// joueur) a une petite piece surelevee au plafond plus bas (secteur 1) ->
+// demontre a la fois la traversee de portail, les "marches" (hauteurs
+// sol/plafond differentes) et les secteurs dynamiques.
+(
+    vertices: [
+        (0.0, 0.0),   // 0
+        (10.0, 0.0),  // 1
+        (10.0, 3.0),  // 2
+        (10.0, 5.0),  // 3
+        (10.0, 8.0),  // 4
+        (0.0, 8.0),   // 5
+        (14.0, 3.0),  // 6
+        (14.0, 5.0),  // 7
+        (10.3, 3.0),  // 8 - cote "salle 1" du secteur-porte
+        (10.3, 5.0),  // 9
+    ],
+    sectors: [
+        (
+            // secteur 0 : grande salle
+            walls: [
+                (start: 0, end: 1, kind: Solid(material: 3)),
+                (start: 1, end: 2, kind: Solid(material: 3)),
+                (start: 2, end: 3, kind: Portal(neighbor: 2, step_material: 3)),
+                (start: 3, end: 4, kind: Solid(material: 3)),
+                (start: 4, end: 5, kind: Solid(material: 3)),
+                (start: 5, end: 0, kind: Solid(material: 3)),
+            ],
+            floor_height: 0.0,
+            ceiling_height: 3.0,
+            light_level: 1.0,
+            floor_material: 1,
+            ceiling_material: 2,
+        ),
+        (
+            // secteur 1 : petite piece, sol surelevee + plafond plus bas + plus sombre
+            // materiau 4 (carrelage) different de la salle principale (3, briques)
+            // pour bien montrer que chaque secteur a ses propres textures.
+            walls: [
+                (start: 8, end: 6, kind: Solid(material: 4)),
+                (start: 6, end: 7, kind: Solid(material: 4)),
+                (start: 7, end: 9, kind: Solid(material: 4)),
+                (start: 9, end: 8, kind: Portal(neighbor: 2, step_material: 4)),
+            ],
+            floor_height: 0.2,
+            ceiling_height: 2.5,
+            light_level: 0.6,
+            floor_material: 1,
+            ceiling_material: 2,
+        ),
+        (
+            // secteur 2 : la porte elle-meme, un secteur fin (0.3 unite)
+            // entre les deux salles. ceiling_height demarre egal a
+            // floor_height (aucun degagement = fermee) ; `door` fait animer
+            // le plafond vers open_height selon la proximite du joueur
+            // (voir crate::door). Cote nord/sud = montants (jambages) fixes.
+            walls: [
+                (start: 2, end: 8, kind: Solid(material: 3)),
+                (start: 8, end: 9, kind: Portal(neighbor: 1, step_material: 3)),
+                (start: 9, end: 3, kind: Solid(material: 3)),
+                (start: 3, end: 2, kind: Portal(neighbor: 0, step_material: 3)),
+            ],
+            floor_height: 0.2,
+            ceiling_height: 0.2,
+            light_level: 0.8,
+            floor_material: 1,
+            ceiling_material: 2,
+            door: Some((open_height: 2.5, trigger_radius: 2.5)),
+        ),
+    ],
+    entities: [
+        (position: (2.0, 2.0), base_height: 0.0, half_width: 0.35, height: 0.9, sprite: Barrel),
+        (position: (2.0, 6.0), base_height: 0.0, half_width: 0.35, height: 0.9, sprite: Barrel),
+        (position: (7.0, 6.5), base_height: 0.0, half_width: 0.35, height: 0.9, sprite: Barrel),
+        (position: (12.0, 4.0), base_height: 0.2, half_width: 0.35, height: 0.9, sprite: Barrel),
+    ],
+)

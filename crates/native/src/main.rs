@@ -1,24 +1,15 @@
 use glam::Vec2;
 use minifb::{Key, Window, WindowOptions};
-use raycaster_core::{Camera, Input, Map, World};
+use raycaster_core::{demo_level, Camera, Input, World};
 use std::time::Instant;
 
 const WIDTH: usize = 640;
 const HEIGHT: usize = 480;
 
 fn main() {
-    let map = Map::from_layout(
-        "##########\n\
-         #........#\n\
-         #..####..#\n\
-         #..#..#..#\n\
-         #..#..#..#\n\
-         #..####..#\n\
-         #........#\n\
-         ##########",
-    );
+    let level = demo_level();
     let camera = Camera::new(Vec2::new(1.5, 1.5));
-    let mut world = World::new(map, camera);
+    let mut world = World::new(level, camera);
 
     let mut window = Window::new("raycaster-native", WIDTH, HEIGHT, WindowOptions::default())
         .expect("failed to open window");

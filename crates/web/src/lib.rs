@@ -1,5 +1,5 @@
 use glam::Vec2;
-use raycaster_core::{Camera, Input, Map, World};
+use raycaster_core::{demo_level, Camera, Input, World};
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::{Clamped, JsCast};
 use web_sys::{CanvasRenderingContext2d, HtmlCanvasElement, ImageData};
@@ -23,22 +23,19 @@ pub struct Game {
     context: CanvasRenderingContext2d,
 }
 
+impl Default for Game {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 #[wasm_bindgen]
 impl Game {
     #[wasm_bindgen(constructor)]
     pub fn new() -> Game {
-        let map = Map::from_layout(
-            "##########\n\
-             #........#\n\
-             #..####..#\n\
-             #..#..#..#\n\
-             #..#..#..#\n\
-             #..####..#\n\
-             #........#\n\
-             ##########",
-        );
+        let level = demo_level();
         let camera = Camera::new(Vec2::new(1.5, 1.5));
-        let world = World::new(map, camera);
+        let world = World::new(level, camera);
 
         let window = web_sys::window().expect("no global window");
         let document = window.document().expect("no document");

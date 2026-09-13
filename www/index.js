@@ -16,8 +16,11 @@ function readInput() {
   if (keysDown.has("KeyS")) forward -= 1;
   if (keysDown.has("KeyD")) strafe += 1;
   if (keysDown.has("KeyA")) strafe -= 1;
-  if (keysDown.has("ArrowRight")) turn += 1;
-  if (keysDown.has("ArrowLeft")) turn -= 1;
+  // sens inverse par rapport a l'intuition "droite = +1" : meme correction
+  // que celle appliquee cote natif apres test manuel (rotation ressentie a
+  // l'envers avec le mapping direct).
+  if (keysDown.has("ArrowRight")) turn -= 1;
+  if (keysDown.has("ArrowLeft")) turn += 1;
 
   return { forward, strafe, turn };
 }
