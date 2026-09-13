@@ -1,0 +1,11 @@
+{
+  "rust-analyzer.linkedProjects": ["./Cargo.toml"],
+  "rust-analyzer.check.command": "clippy",
+  "rust-analyzer.cargo.features": "all",
+  "files.watcherExclude": {
+    "**/target/**": true
+  },
+  "files.exclude": {
+    "**/target": true
+  }
+}

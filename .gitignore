@@ -1,0 +1,4 @@
+/target
+/www/pkg
+.claude-flow/
+.agent/

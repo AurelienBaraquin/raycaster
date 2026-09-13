@@ -1,0 +1,10 @@
+[package]
+name = "raycaster-core"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+glam = "0.33.7"
+
+[dev-dependencies]
+approx = "0.5.1"

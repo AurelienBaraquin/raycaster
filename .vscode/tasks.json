@@ -1,0 +1,38 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "cargo check (workspace)",
+      "type": "cargo",
+      "command": "check",
+      "args": ["--workspace"],
+      "problemMatcher": ["$rustc"],
+      "group": "build"
+    },
+    {
+      "label": "test core",
+      "type": "shell",
+      "command": "cargo test -p raycaster-core",
+      "group": "test"
+    },
+    {
+      "label": "run native",
+      "type": "shell",
+      "command": "cargo run -p raycaster-native",
+      "group": "build"
+    },
+    {
+      "label": "build wasm",
+      "type": "shell",
+      "command": "wasm-pack build crates/web --target web --out-dir ../../www/pkg",
+      "group": "build"
+    },
+    {
+      "label": "serve web",
+      "type": "shell",
+      "command": "python3 -m http.server 8080 --directory www",
+      "isBackground": true,
+      "group": "build"
+    }
+  ]
+}

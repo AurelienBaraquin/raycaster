@@ -1,0 +1,21 @@
+[package]
+name = "raycaster-web"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+console_error_panic_hook = "0.1.7"
+glam = "0.33.7"
+raycaster-core = { version = "0.1.0", path = "../core" }
+wasm-bindgen = "0.2.128"
+web-sys = { version = "0.3.105", features = ["Window", "Document", "HtmlCanvasElement", "CanvasRenderingContext2d", "ImageData"] }
+
+# The system wasm-opt (binaryen) available in this environment is too old to
+# correctly handle the externref table wasm-bindgen 0.2.100+ generates, which
+# corrupts the table's max size and causes a `WebAssembly.Table.grow()`
+# RangeError at init in the browser. Skip wasm-opt until binaryen is updated.
+[package.metadata.wasm-pack.profile.release]
+wasm-opt = false

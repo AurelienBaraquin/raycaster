@@ -1,0 +1,9 @@
+[package]
+name = "raycaster-native"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+glam = "0.33.7"
+minifb = "0.28.0"
+raycaster-core = { version = "0.1.0", path = "../core" }
