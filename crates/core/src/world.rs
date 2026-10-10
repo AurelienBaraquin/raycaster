@@ -28,6 +28,12 @@ impl World {
         render_level(&self.level, &self.camera, framebuffer, width, height);
     }
 
+    /// Camera courante, apres collisions : position et orientation en lecture
+    /// seule (utile pour les outils externes, ex. un rendu pilote par commandes).
+    pub fn camera(&self) -> &Camera {
+        &self.camera
+    }
+
     pub fn update(&mut self, input: Input, dt: f32) {
         self.camera.dir = self.camera.dir.rotate_angle(input.turn * ROT_SPEED * dt);
 
@@ -94,6 +100,17 @@ mod tests {
         // dir = (-1, 0), MOVE_SPEED = 3.0 -> delta = (-0.3, 0.0)
         approx::assert_relative_eq!(world.camera.position.x, 4.7, epsilon = 1e-5);
         approx::assert_relative_eq!(world.camera.position.y, 5.0, epsilon = 1e-5);
+    }
+
+    #[test]
+    fn camera_reflects_the_position_after_an_update() {
+        let level = single_room();
+        let camera = Camera::new(Vec2::new(5.0, 5.0));
+        let mut world = World::new(level, camera);
+
+        world.update(Input { forward: 1.0, strafe: 0.0, turn: 0.0 }, 0.1);
+
+        approx::assert_relative_eq!(world.camera().position.x, 4.7, epsilon = 1e-5);
     }
 
     #[test]
